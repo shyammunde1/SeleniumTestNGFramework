@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import pages.LoginPage;
 import utils.ConfigReader;
 import utils.DriverFactory;
+import utils.PageObjectManager;
 
 
 public class BaseTest {
@@ -17,6 +18,7 @@ public class BaseTest {
     protected int timeout;
     protected String url;
     protected LoginPage loginPage;
+    protected PageObjectManager pageObjectManager;
 
     @BeforeMethod
     public void setup() {
@@ -26,14 +28,15 @@ public class BaseTest {
         driver = DriverFactory.createDriver(browser);
 
         driver.manage().window().maximize();
-        loginPage = new LoginPage(driver, url, timeout);
+        pageObjectManager = new PageObjectManager(driver, url, timeout);
+        loginPage = pageObjectManager.getLoginPage();
 
 
     }
 
     @AfterMethod
     public void tearDown() {
-        if(driver !=null){
+        if(driver != null) {
             driver.quit();
         }
 

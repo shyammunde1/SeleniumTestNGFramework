@@ -10,8 +10,6 @@ import pages.SecureAreaPage;
 
 @Listeners(TestListener.class)
 public class LoginTest extends BaseTest {
-
-
     @DataProvider(name = "loginData")
     public Object[][] loginData() {
         return new Object[][]{
@@ -40,7 +38,7 @@ public class LoginTest extends BaseTest {
 
         loginPage.openLoginPage();
         loginPage.login("tomsmith", "SuperSecretPassword!");
-        SecureAreaPage secureAreaPage = new SecureAreaPage(driver, timeout);
+        SecureAreaPage secureAreaPage = pageObjectManager.getSecureAreaPage();
         String actualMessage = secureAreaPage.getSecureAreaMessage();
         String expectedMessage = "You logged into a secure area!";
         //String expectedMessage = "wrong message";
