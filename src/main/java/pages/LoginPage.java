@@ -23,8 +23,8 @@ public class LoginPage extends BasePage {
     }
 
     public SecureAreaPage login(String username, String password ) {
-        sendKey(this.username, username);
-        sendKey(this.password, password);
+        clearAndSendKey(this.username, username);
+        clearAndSendKey(this.password, password);
         click(button);
         return new SecureAreaPage(driver,timeout);
     }
