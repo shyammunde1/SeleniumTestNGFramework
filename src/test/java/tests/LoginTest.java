@@ -39,9 +39,8 @@ public class LoginTest extends BaseTest {
     public void verifySecureArea() {
 
         loginPage.openLoginPage();
-        SecureAreaPage secureAreaPage = loginPage
-                .login("tomsmith", "SuperSecretPassword!");
-
+        loginPage.login("tomsmith", "SuperSecretPassword!");
+        SecureAreaPage secureAreaPage = new SecureAreaPage(driver, timeout);
         String actualMessage = secureAreaPage.getSecureAreaMessage();
         String expectedMessage = "You logged into a secure area!";
         //String expectedMessage = "wrong message";
