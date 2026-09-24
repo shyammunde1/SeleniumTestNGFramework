@@ -28,7 +28,7 @@ public class LoginTest extends BaseTest {
         //passing the username and password
         loginPage.login(username, password);
         //verify the login success
-        String actualMessage = loginPage.getSuccessMessage();
+        String actualMessage = loginPage.getLoginMessage();
 
         Assert.assertTrue(actualMessage.contains(expectedMessage),
                 "Expected message: " + expectedMessage +

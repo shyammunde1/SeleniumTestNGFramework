@@ -29,7 +29,7 @@ public class LoginPage extends BasePage {
         return new SecureAreaPage(driver,timeout);
     }
 
-    public String getSuccessMessage() {
+    public String getLoginMessage() {
 
         return getText(successMessage);
     }
