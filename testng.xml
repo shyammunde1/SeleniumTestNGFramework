@@ -4,6 +4,11 @@
 
 <suite name="Automation Suite">
     <test name="login Tests">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
         <classes>
             <class name="tests.LoginTest"/>
         </classes>

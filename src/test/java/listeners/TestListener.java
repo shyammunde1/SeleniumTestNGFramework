@@ -32,15 +32,19 @@ public class TestListener implements ITestListener {
         //System.out.println("Test failed :" + result.getName());
         BaseTest testInstance = (BaseTest) result.getInstance();
         WebDriver driver = testInstance.getDriver();
-        TakesScreenshot screenshot = (TakesScreenshot) driver;
-        File src = screenshot.getScreenshotAs(OutputType.FILE);
 
-        Path destination = Paths.get("screenshootSelenium", result.getName() + ".png");
-        try {
-            Files.createDirectories(destination.getParent());
-            Files.copy(src.toPath(), destination.toAbsolutePath());
-        }catch (IOException e){
-            System.out.println("IOException");
+        if (driver != null) {
+            TakesScreenshot screenshot = (TakesScreenshot) driver;
+            File src = screenshot.getScreenshotAs(OutputType.FILE);
+
+            Path destination = Paths.get("screenshootSelenium", result.getName() + ".png");
+
+            try {
+                Files.createDirectories(destination.getParent());
+                Files.copy(src.toPath(), destination.toAbsolutePath());
+            } catch (IOException e) {
+                System.out.println("IOException while saving screenshot");
+            }
         }
 
     }

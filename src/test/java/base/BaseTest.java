@@ -20,7 +20,7 @@ public class BaseTest {
     protected LoginPage loginPage;
     protected PageObjectManager pageObjectManager;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup() {
         String browser = configReader.getProperty("browser");
         timeout = configReader.getIntProperty("timeout");
@@ -34,7 +34,7 @@ public class BaseTest {
 
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         if(driver != null) {
             driver.quit();

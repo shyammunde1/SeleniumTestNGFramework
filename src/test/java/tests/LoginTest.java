@@ -33,7 +33,7 @@ public class LoginTest extends BaseTest {
                         "but actual message was: " + actualMessage);
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void verifySecureArea() {
 
         loginPage.openLoginPage();
