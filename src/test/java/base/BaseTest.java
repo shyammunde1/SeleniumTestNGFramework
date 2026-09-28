@@ -25,8 +25,8 @@ public class BaseTest {
         String browser = configReader.getProperty("browser");
         timeout = configReader.getIntProperty("timeout");
         url = configReader.getProperty("url");
-        driver = DriverFactory.createDriver(browser);
-
+        DriverFactory.createDriver(browser);
+        driver = DriverFactory.getDriver();
         driver.manage().window().maximize();
         pageObjectManager = new PageObjectManager(driver, url, timeout);
         loginPage = pageObjectManager.getLoginPage();
@@ -36,10 +36,8 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        if(driver != null) {
-            driver.quit();
-        }
-
+        DriverFactory.quitDriver();
+        driver = null;
     }
 
     public WebDriver getDriver() {

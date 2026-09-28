@@ -1,14 +1,13 @@
 package tests;
 
 import base.BaseTest;
-import listeners.TestListener;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.SecureAreaPage;
 
-@Listeners(TestListener.class)
 public class LoginTest extends BaseTest {
     @DataProvider(name = "loginData")
     public Object[][] loginData() {
@@ -40,12 +39,22 @@ public class LoginTest extends BaseTest {
         loginPage.login("tomsmith", "SuperSecretPassword!");
         SecureAreaPage secureAreaPage = pageObjectManager.getSecureAreaPage();
         String actualMessage = secureAreaPage.getSecureAreaMessage();
-        String expectedMessage = "You logged into a secure area!";
-        //String expectedMessage = "wrong message";
+        //String expectedMessage = "You logged into a secure area!";
+        String expectedMessage = "wrong message";
 
         Assert.assertTrue(actualMessage.contains(expectedMessage),
-                "Expected message: " + expectedMessage +
-                        "but actual message was: " + actualMessage);
+                "Expected message: " + expectedMessage
+                        + " but actual message was: " + actualMessage);
+    }
+
+    @BeforeClass
+    public void beforeClass() {
+        System.out.println("===== BEFORE CLASS =====");
+    }
+
+    @AfterClass
+    public void afterClass() {
+        System.out.println("===== AFTER CLASS =====");
     }
 
 }

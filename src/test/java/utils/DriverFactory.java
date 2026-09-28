@@ -5,8 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 
 public class DriverFactory {
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    public static WebDriver createDriver(String browser) {
+    public static void createDriver(String browser) {
 
 
         if (browser == null || browser.isEmpty()) {
@@ -15,10 +16,10 @@ public class DriverFactory {
                     "Browser configuration is missing or empty");
 
         } else if (browser.equalsIgnoreCase("chrome")) {
-            return new ChromeDriver();
+            driver.set(new ChromeDriver());
 
         } else if (browser.equalsIgnoreCase("edge")) {
-            return new EdgeDriver();
+            driver.set(new EdgeDriver());
 
         } else {
             throw new RuntimeException(
@@ -26,4 +27,15 @@ public class DriverFactory {
         }
     }
 
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
+
+    public static void quitDriver(){
+        if(driver.get() !=null){
+            driver.get().quit();
+            driver.remove();
+
+        }
+    }
 }

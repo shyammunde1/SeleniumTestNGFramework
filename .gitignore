@@ -1,4 +1,6 @@
 target/
+test-output/
+screenshootSelenium/*.png
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
