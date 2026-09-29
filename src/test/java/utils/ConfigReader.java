@@ -3,11 +3,11 @@ package utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.text.NumberFormat;
+
 
 public class ConfigReader {
 
-    private Properties properties;
+    private final Properties properties;
 
     public ConfigReader() {
         properties = new Properties();
@@ -24,18 +24,46 @@ public class ConfigReader {
 
             properties.load(input);
 
+            String environment = properties.getProperty("environment");
+            if (environment == null || environment.isBlank()) {
+                throw new RuntimeException("Environment configuration is missing or empty");
+
+            }
+
+            String environmentFile =
+                    "environments/" + environment + ".properties";
+
+            InputStream environmentInput = getClass()
+                    .getClassLoader()
+                    .getResourceAsStream(environmentFile);
+
+            if (environmentInput == null) {
+                throw new RuntimeException(
+                        "Environment file not found: " + environmentFile);
+            }
+
+            properties.load(environmentInput);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public String getProperty(String key) {
-        return properties.getProperty(key);
+
+        String value = properties.getProperty(key);
+
+        if (value == null || value.isBlank()) {
+            throw new RuntimeException(
+                    "Configuration error: " + key + " is missing or empty");
+        }
+
+        return value;
     }
 
     public int getIntProperty(String key) {
         String value = properties.getProperty(key);
-        if (value == null || value.isEmpty()) {
+        if (value == null || value.isBlank()) {
             throw new RuntimeException(
                     "Configuration error: " + key + " is missing or empty"
             );

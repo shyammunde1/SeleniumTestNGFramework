@@ -39,8 +39,8 @@ public class LoginTest extends BaseTest {
         loginPage.login("tomsmith", "SuperSecretPassword!");
         SecureAreaPage secureAreaPage = pageObjectManager.getSecureAreaPage();
         String actualMessage = secureAreaPage.getSecureAreaMessage();
-        //String expectedMessage = "You logged into a secure area!";
-        String expectedMessage = "wrong message";
+        String expectedMessage = "You logged into a secure area!";
+        //String expectedMessage = "wrong message";
 
         Assert.assertTrue(actualMessage.contains(expectedMessage),
                 "Expected message: " + expectedMessage
