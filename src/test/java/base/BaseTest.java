@@ -1,10 +1,8 @@
 package base;
 
 import org.openqa.selenium.WebDriver;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import pages.LoginPage;
 import utils.ConfigReader;
 import utils.DriverFactory;
 import utils.PageObjectManager;
@@ -17,7 +15,6 @@ public class BaseTest {
     protected final ConfigReader configReader = new ConfigReader();
     protected int timeout;
     protected String url;
-    protected LoginPage loginPage;
     protected PageObjectManager pageObjectManager;
 
     @BeforeMethod(alwaysRun = true)
@@ -29,7 +26,6 @@ public class BaseTest {
         driver = DriverFactory.getDriver();
         driver.manage().window().maximize();
         pageObjectManager = new PageObjectManager(driver, url, timeout);
-        loginPage = pageObjectManager.getLoginPage();
 
 
     }
@@ -39,6 +35,7 @@ public class BaseTest {
         DriverFactory.quitDriver();
         driver = null;
     }
+
 
     public WebDriver getDriver() {
         return driver;

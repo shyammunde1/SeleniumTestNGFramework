@@ -6,6 +6,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pages.LoginPage;
 import pages.SecureAreaPage;
 import utils.TestDataReader;
 
@@ -37,6 +38,7 @@ public class LoginTest extends BaseTest {
     @Test(dataProvider = "loginData", groups = "smoke")
     public void loginTest(String username, String password, String expectedMessage) {
         //open login webpage
+        LoginPage loginPage = pageObjectManager.getLoginPage();
         loginPage.openLoginPage();
         //passing the username and password
         loginPage.login(username, password);
@@ -45,11 +47,12 @@ public class LoginTest extends BaseTest {
 
         Assert.assertTrue(actualMessage.contains(expectedMessage),
                 "Expected message: " + expectedMessage +
-                        "but actual message was: " + actualMessage);
+                        " but actual message was: " + actualMessage);
     }
 
     @Test(groups = "smoke")
     public void verifySecureArea() {
+        LoginPage loginPage = pageObjectManager.getLoginPage();
         String username = testDataReader.getTestData("valid.username");
         String password = testDataReader.getTestData("valid.password");
         String expectedMessage =

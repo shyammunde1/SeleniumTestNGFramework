@@ -6,9 +6,9 @@ import pages.SecureAreaPage;
 
 public class PageObjectManager {
 
-    private WebDriver driver;
-    private String url;
-    private int timeout;
+    private final WebDriver driver;
+    private final String url;
+    private final int timeout;
 
     public PageObjectManager(WebDriver driver, String url, int timeout) {
         this.driver = driver;

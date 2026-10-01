@@ -10,18 +10,17 @@ public class TestDataReader {
     public TestDataReader() {
         properties = new Properties();
 
-        try {
-            InputStream input = getClass()
-                    .getClassLoader()
-                    .getResourceAsStream("testdata/loginData.properties");
+        try (InputStream input = getClass()
+                .getClassLoader()
+                .getResourceAsStream("testdata/loginData.properties")) {
 
             if (input == null) {
-                throw new RuntimeException("loginData.properties not found");
+                throw new RuntimeException("loginData.properties not found in resources");
 
             }
             properties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException("failed to load testdata ", e);
+            throw new RuntimeException("failed to load login test data ", e);
         }
     }
 
