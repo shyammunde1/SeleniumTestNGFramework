@@ -13,10 +13,9 @@ public class ConfigReader {
         properties = new Properties();
 
 
-        try {
-            InputStream input = getClass()
-                    .getClassLoader()
-                    .getResourceAsStream("config.properties");
+        try (InputStream input = getClass()
+                .getClassLoader()
+                .getResourceAsStream("config.properties")) {
 
             if (input == null) {
                 throw new RuntimeException("config.properties not found");
@@ -33,19 +32,20 @@ public class ConfigReader {
             String environmentFile =
                     "environments/" + environment + ".properties";
 
-            InputStream environmentInput = getClass()
+            try (InputStream environmentInput = getClass()
                     .getClassLoader()
-                    .getResourceAsStream(environmentFile);
+                    .getResourceAsStream(environmentFile)) {
 
-            if (environmentInput == null) {
-                throw new RuntimeException(
-                        "Environment file not found: " + environmentFile);
+
+                if (environmentInput == null) {
+                    throw new RuntimeException(
+                            "Environment file not found: " + environmentFile);
+                }
+
+                properties.load(environmentInput);
             }
-
-            properties.load(environmentInput);
-
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to configuration", e);
         }
     }
 
