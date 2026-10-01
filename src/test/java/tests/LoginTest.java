@@ -7,18 +7,34 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.SecureAreaPage;
+import utils.TestDataReader;
 
 public class LoginTest extends BaseTest {
+
+    private final TestDataReader testDataReader = new TestDataReader();
+
     @DataProvider(name = "loginData")
     public Object[][] loginData() {
         return new Object[][]{
-                {"tomsmith", "SuperSecretPassword!", "You logged into a secure area!"},
-                {"sam", "SuperSecretPassword!", "Your username is invalid!"},
-                {"tomsmith", "wrongPassword", "Your password is invalid!"}
+                {
+                        testDataReader.getTestData("valid.username"),
+                        testDataReader.getTestData("valid.password"),
+                        testDataReader.getTestData("valid.expectedMessage")
+                },
+                {
+                        testDataReader.getTestData("invalid.username"),
+                        testDataReader.getTestData("invalid.password"),
+                        testDataReader.getTestData("invalid.expectedMessage")
+                },
+                {
+                        testDataReader.getTestData("wrongPassword.username"),
+                        testDataReader.getTestData("wrongPassword.password"),
+                        testDataReader.getTestData("wrongPassword.expectedMessage")
+                }
         };
     }
 
-    @Test(dataProvider = "loginData")
+    @Test(dataProvider = "loginData", groups = "smoke")
     public void loginTest(String username, String password, String expectedMessage) {
         //open login webpage
         loginPage.openLoginPage();
@@ -34,12 +50,16 @@ public class LoginTest extends BaseTest {
 
     @Test(groups = "smoke")
     public void verifySecureArea() {
+        String username = testDataReader.getTestData("valid.username");
+        String password = testDataReader.getTestData("valid.password");
+        String expectedMessage =
+                testDataReader.getTestData("valid.expectedMessage");
 
         loginPage.openLoginPage();
-        loginPage.login("tomsmith", "SuperSecretPassword!");
+        loginPage.login(username, password);
         SecureAreaPage secureAreaPage = pageObjectManager.getSecureAreaPage();
         String actualMessage = secureAreaPage.getSecureAreaMessage();
-        String expectedMessage = "You logged into a secure area!";
+
         //String expectedMessage = "wrong message";
 
         Assert.assertTrue(actualMessage.contains(expectedMessage),
