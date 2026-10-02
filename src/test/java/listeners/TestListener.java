@@ -4,13 +4,14 @@ import base.BaseTest;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import utils.ExtentReportManager;
+import utils.ScreenshotUtils;
+
+import java.io.IOException;
 
 public class TestListener implements ITestListener {
 
@@ -50,18 +51,16 @@ public class TestListener implements ITestListener {
         }
         BaseTest testInstance = (BaseTest) result.getInstance();
         WebDriver driver = testInstance.getDriver();
-
+        String testName = result.getMethod().getMethodName();
 
         if (driver != null) {
+            try {
+                String screenShotPath = ScreenshotUtils.captureScreenshot(driver, testName);
+                extentTest.get().addScreenCaptureFromPath(screenShotPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            TakesScreenshot screenshot = (TakesScreenshot) driver;
-
-            String base64Screenshot =
-                    screenshot.getScreenshotAs(OutputType.BASE64);
-
-            extentTest.get().addScreenCaptureFromBase64String(
-                    base64Screenshot
-            );
 
         }
     }
