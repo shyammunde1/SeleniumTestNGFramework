@@ -11,14 +11,20 @@ public class DriverFactory {
     public static void createDriver(String browser) {
 
 
-        if (browser == null || browser.isEmpty()) {
+        if (browser == null || browser.isBlank()) {
 
             throw new RuntimeException(
                     "Browser configuration is missing or empty");
 
         }
 
-        switch (browser.toLowerCase()) {
+        if (driver.get() != null) {
+            quitDriver();
+
+        }
+
+        browser = browser.trim().toLowerCase();
+        switch (browser) {
             case "chrome":
                 driver.set(new ChromeDriver());
                 break;
@@ -41,8 +47,9 @@ public class DriverFactory {
     }
 
     public static void quitDriver() {
-        if (driver.get() != null) {
-            driver.get().quit();
+        WebDriver webDriver = driver.get();
+        if (webDriver != null) {
+            webDriver.quit();
             driver.remove();
 
         }
