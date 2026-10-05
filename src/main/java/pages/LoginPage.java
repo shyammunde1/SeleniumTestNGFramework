@@ -7,8 +7,7 @@ import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends BasePage {
 
-    String url;
-    int timeout;
+    private final String url;
 
     By username = By.id("username");
     By password = By.id("password");
@@ -18,11 +17,9 @@ public class LoginPage extends BasePage {
     public LoginPage(WebDriver driver, String url, int timeout) {
         super(driver, timeout);
         this.url = url;
-        this.timeout=timeout;
-
     }
 
-    public void login(String username, String password ) {
+    public void login(String username, String password) {
         clearAndSendKey(this.username, username);
         clearAndSendKey(this.password, password);
         click(button);
