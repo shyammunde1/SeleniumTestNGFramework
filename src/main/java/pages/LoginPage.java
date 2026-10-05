@@ -22,11 +22,11 @@ public class LoginPage extends BasePage {
 
     }
 
-    public SecureAreaPage login(String username, String password ) {
+    public void login(String username, String password ) {
         clearAndSendKey(this.username, username);
         clearAndSendKey(this.password, password);
         click(button);
-        return new SecureAreaPage(driver,timeout);
+
     }
 
     public String getLoginMessage() {
