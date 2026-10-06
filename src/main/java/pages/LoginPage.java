@@ -9,10 +9,10 @@ public class LoginPage extends BasePage {
 
     private final String url;
 
-    By username = By.id("username");
-    By password = By.id("password");
-    By button = By.cssSelector("button[type='submit']");
-    By successMessage = By.id("flash");
+    private final By username = By.id("username");
+    private final By password = By.id("password");
+    private final By button = By.cssSelector("button[type='submit']");
+    private final By successMessage = By.id("flash");
 
     public LoginPage(WebDriver driver, String url, int timeout) {
         super(driver, timeout);
