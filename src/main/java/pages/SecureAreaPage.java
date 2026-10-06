@@ -7,15 +7,14 @@ import org.openqa.selenium.WebDriver;
 public class SecureAreaPage extends BasePage {
 
 
+    private final By secureAreaMessage = By.id("flash");
 
-     By secureAreaMessage = By.id("flash");
-
-    public SecureAreaPage(WebDriver driver,int timeout) {
-      super(driver, timeout);
+    public SecureAreaPage(WebDriver driver, int timeout) {
+        super(driver, timeout);
 
     }
 
-    public String getSecureAreaMessage(){
+    public String getSecureAreaMessage() {
         return getText(secureAreaMessage);
     }
 }
