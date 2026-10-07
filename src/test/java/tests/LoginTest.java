@@ -53,6 +53,8 @@ public class LoginTest extends BaseTest {
     @Test(groups = "smoke")
     public void verifySecureArea() {
         LoginPage loginPage = pageObjectManager.getLoginPage();
+        SecureAreaPage secureAreaPage = pageObjectManager.getSecureAreaPage();
+
         String username = testDataReader.getTestData("valid.username");
         String password = testDataReader.getTestData("valid.password");
         String expectedMessage =
@@ -60,7 +62,7 @@ public class LoginTest extends BaseTest {
 
         loginPage.openLoginPage();
         loginPage.login(username, password);
-        SecureAreaPage secureAreaPage = pageObjectManager.getSecureAreaPage();
+
         String actualMessage = secureAreaPage.getSecureAreaMessage();
 
         //String expectedMessage = "wrong message";
