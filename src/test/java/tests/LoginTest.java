@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import flows.LoginFlow;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -52,16 +53,15 @@ public class LoginTest extends BaseTest {
 
     @Test(groups = "smoke")
     public void verifySecureArea() {
-        LoginPage loginPage = pageObjectManager.getLoginPage();
-        SecureAreaPage secureAreaPage = pageObjectManager.getSecureAreaPage();
+
 
         String username = testDataReader.getTestData("valid.username");
         String password = testDataReader.getTestData("valid.password");
         String expectedMessage =
                 testDataReader.getTestData("valid.expectedMessage");
 
-        loginPage.openLoginPage();
-        loginPage.login(username, password);
+        LoginFlow loginFlow = new LoginFlow(pageObjectManager);
+        SecureAreaPage secureAreaPage = loginFlow.login(username, password);
 
         String actualMessage = secureAreaPage.getSecureAreaMessage();
 
