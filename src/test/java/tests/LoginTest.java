@@ -73,6 +73,7 @@ public class LoginTest extends BaseTest {
                         + " but actual message was: " + actualMessage);
     }
 
+
     @Test(groups = "smoke")
     public void verifyLogout() {
         String username = testDataReader.getTestData("valid.username");
@@ -81,9 +82,11 @@ public class LoginTest extends BaseTest {
         LoginFlow loginFlow = new LoginFlow(pageObjectManager);
         SecureAreaPage secureAreaPage = loginFlow.login(username, password);
 
+        String expectedLoginMessage =
+                testDataReader.getTestData("valid.expectedMessage");
+
         Assert.assertTrue(
-                secureAreaPage.getSecureAreaMessage().contains(
-                        testDataReader.getTestData("valid.expectedMessage")),
+                secureAreaPage.getSecureAreaMessage().contains(expectedLoginMessage),
                 "Login was not successful before logout"
         );
 
@@ -95,6 +98,14 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(
                 loginPage.isLoginPageDisplayed(),
                 "Login page was not displayed after logout"
+        );
+
+        String actualLogoutMessage = loginPage.getLoginMessage();
+
+        Assert.assertTrue(
+                actualLogoutMessage.contains("You logged out of the secure area!"),
+                "Logout success message was not displayed. Actual message: "
+                        + actualLogoutMessage
         );
     }
 
