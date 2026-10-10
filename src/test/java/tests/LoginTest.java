@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import flows.LoginFlow;
+import flows.LogoutFlow;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -70,6 +71,31 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(actualMessage.contains(expectedMessage),
                 "Expected message: " + expectedMessage
                         + " but actual message was: " + actualMessage);
+    }
+
+    @Test(groups = "smoke")
+    public void verifyLogout() {
+        String username = testDataReader.getTestData("valid.username");
+        String password = testDataReader.getTestData("valid.password");
+
+        LoginFlow loginFlow = new LoginFlow(pageObjectManager);
+        SecureAreaPage secureAreaPage = loginFlow.login(username, password);
+
+        Assert.assertTrue(
+                secureAreaPage.getSecureAreaMessage().contains(
+                        testDataReader.getTestData("valid.expectedMessage")),
+                "Login was not successful before logout"
+        );
+
+        LogoutFlow logoutFlow = new LogoutFlow(secureAreaPage);
+        logoutFlow.logout();
+
+        LoginPage loginPage = pageObjectManager.getLoginPage();
+
+        Assert.assertTrue(
+                loginPage.isLoginPageDisplayed(),
+                "Login page was not displayed after logout"
+        );
     }
 
     @BeforeClass

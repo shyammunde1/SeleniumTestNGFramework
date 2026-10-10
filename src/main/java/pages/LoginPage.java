@@ -35,4 +35,8 @@ public class LoginPage extends BasePage {
 
         driver.get(url);
     }
+
+    public boolean isLoginPageDisplayed() {
+        return isDisplayed(username);
+    }
 }

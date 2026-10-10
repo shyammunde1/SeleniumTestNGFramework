@@ -8,6 +8,7 @@ public class SecureAreaPage extends BasePage {
 
 
     private final By secureAreaMessage = By.id("flash");
+    private final By logoutButton = By.cssSelector("a[href='/logout']");
 
     public SecureAreaPage(WebDriver driver, int timeout) {
         super(driver, timeout);
@@ -16,5 +17,9 @@ public class SecureAreaPage extends BasePage {
 
     public String getSecureAreaMessage() {
         return getText(secureAreaMessage);
+    }
+
+    public void clickLogout() {
+        click(logoutButton);
     }
 }
