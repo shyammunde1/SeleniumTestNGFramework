@@ -40,7 +40,8 @@ public class LoginTest extends BaseTest {
     @Test(dataProvider = "loginData", groups = "smoke")
     public void loginTest(String username, String password, String expectedMessage) {
         //open login webpage
-        LoginPage loginPage = pageObjectManager.getLoginPage();
+
+        LoginPage loginPage = getPageObjectManager().getLoginPage();
         loginPage.openLoginPage();
         //passing the username and password
         loginPage.login(username, password);
@@ -61,7 +62,7 @@ public class LoginTest extends BaseTest {
         String expectedMessage =
                 testDataReader.getTestData("valid.expectedMessage");
 
-        LoginFlow loginFlow = new LoginFlow(pageObjectManager);
+        LoginFlow loginFlow = new LoginFlow(getPageObjectManager());
         SecureAreaPage secureAreaPage = loginFlow.login(username, password);
 
         String actualMessage = secureAreaPage.getSecureAreaMessage();
@@ -76,10 +77,11 @@ public class LoginTest extends BaseTest {
 
     @Test(groups = "smoke")
     public void verifyLogout() {
+
         String username = testDataReader.getTestData("valid.username");
         String password = testDataReader.getTestData("valid.password");
 
-        LoginFlow loginFlow = new LoginFlow(pageObjectManager);
+        LoginFlow loginFlow = new LoginFlow(getPageObjectManager());
         SecureAreaPage secureAreaPage = loginFlow.login(username, password);
 
         String expectedLoginMessage =
@@ -93,7 +95,7 @@ public class LoginTest extends BaseTest {
         LogoutFlow logoutFlow = new LogoutFlow(secureAreaPage);
         logoutFlow.logout();
 
-        LoginPage loginPage = pageObjectManager.getLoginPage();
+        LoginPage loginPage = getPageObjectManager().getLoginPage();
 
         Assert.assertTrue(
                 loginPage.isLoginPageDisplayed(),

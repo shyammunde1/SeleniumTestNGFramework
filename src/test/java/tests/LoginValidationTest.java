@@ -7,12 +7,13 @@ import org.testng.annotations.Test;
 public class LoginValidationTest extends BaseTest {
 
     @Test
-    public void verifyLoginPageTitle(){
-        driver.get("https://the-internet.herokuapp.com/login");
+    public void verifyLoginPageTitle() {
+
+        getDriver().get(url);
         //System.out.println("verify the title :"+driver.getTitle());
-        String actualTitle=driver.getTitle();
-        String expectedTitle="The Internet";
-        Assert.assertEquals(actualTitle,expectedTitle);
+        String actualTitle = getDriver().getTitle();
+        String expectedTitle = "The Internet";
+        Assert.assertEquals(actualTitle, expectedTitle);
 
     }
 }

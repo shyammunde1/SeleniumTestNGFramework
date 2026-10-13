@@ -10,12 +10,14 @@ import utils.PageObjectManager;
 
 public class BaseTest {
 
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private final ThreadLocal<PageObjectManager> pageObjectManager =
+            new ThreadLocal<>();
 
-    protected WebDriver driver;
     protected final ConfigReader configReader = new ConfigReader();
     protected int timeout;
     protected String url;
-    protected PageObjectManager pageObjectManager;
+
 
     @BeforeMethod(alwaysRun = true)
     public void setup() {
@@ -23,22 +25,34 @@ public class BaseTest {
         timeout = configReader.getIntProperty("timeout");
         url = configReader.getProperty("url");
         DriverFactory.createDriver(browser);
-        driver = DriverFactory.getDriver();
-        driver.manage().window().maximize();
-        pageObjectManager = new PageObjectManager(driver, url, timeout);
+        WebDriver currentDriver = DriverFactory.getDriver();
+        driver.set(currentDriver);
+        currentDriver.manage().window().maximize();
+        pageObjectManager.set(
+                new PageObjectManager(currentDriver, url, timeout)
+        );
 
 
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        DriverFactory.quitDriver();
-        driver = null;
+        try {
+            DriverFactory.quitDriver();
+        } finally {
+            driver.remove();
+            pageObjectManager.remove();
+        }
+
     }
 
 
     public WebDriver getDriver() {
-        return driver;
+        return driver.get();
+    }
+
+    protected PageObjectManager getPageObjectManager() {
+        return pageObjectManager.get();
     }
 }
 
