@@ -2,6 +2,7 @@ package utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -25,9 +26,20 @@ public class DriverFactory {
 
         browser = browser.trim().toLowerCase();
         switch (browser) {
+
             case "chrome":
-                driver.set(new ChromeDriver());
+                ChromeOptions options = new ChromeOptions();
+
+                if (Boolean.parseBoolean(
+                        System.getenv("CI"))) {
+                    options.addArguments("--headless");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                }
+
+                driver.set(new ChromeDriver(options));
                 break;
+
             case "edge":
                 driver.set(new EdgeDriver());
                 break;
