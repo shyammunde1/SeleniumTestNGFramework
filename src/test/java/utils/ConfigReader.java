@@ -45,7 +45,7 @@ public class ConfigReader {
                 properties.load(environmentInput);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to configuration", e);
+            throw new RuntimeException("Failed to load configuration", e);
         }
     }
 
@@ -61,22 +61,19 @@ public class ConfigReader {
         return value;
     }
 
-    public int getIntProperty(String key) {
-        String value = properties.getProperty(key);
-        if (value == null || value.isBlank()) {
-            throw new RuntimeException(
-                    "Configuration error: " + key + " is missing or empty"
-            );
 
-        }
+    public int getIntProperty(String key) {
+        String value = getProperty(key);
 
         try {
             return Integer.parseInt(value);
-
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("integer number required :" + key);
+            throw new IllegalArgumentException(
+                    "Configuration error: " + key
+                            + " must be a valid integer, but was: " + value,
+                    e
+            );
         }
-
-
     }
+
 }
