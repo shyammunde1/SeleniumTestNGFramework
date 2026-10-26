@@ -34,6 +34,22 @@
             <artifactId>extentreports</artifactId>
             <version>5.1.2</version>
         </dependency>
+        <!-- Cucumber: Gherkin and step definitions -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.30.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cucumber integration with TestNG -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>7.30.0</version>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
     <build>

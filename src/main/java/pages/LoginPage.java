@@ -19,12 +19,21 @@ public class LoginPage extends BasePage {
         this.url = url;
     }
 
-    public void login(String username, String password) {
+
+    public void enterCredentials(String username, String password) {
         clearAndSendKey(this.username, username);
         clearAndSendKey(this.password, password);
-        click(button);
-
     }
+
+    public void clickLoginButton() {
+        click(button);
+    }
+
+    public void login(String username, String password) {
+        enterCredentials(username, password);
+        clickLoginButton();
+    }
+
 
     public String getLoginMessage() {
 

@@ -8,13 +8,10 @@
         <listener class-name="listeners.RetryListener"/>
     </listeners>
     <test name="login Tests">
-        <groups>
-            <run>
-                <include name="smoke"/>
-            </run>
-        </groups>
+
         <classes>
             <class name="tests.LoginTest"/>
+            <class name="runners.CucumberTestRunner"/>
         </classes>
     </test>
 </suite>
