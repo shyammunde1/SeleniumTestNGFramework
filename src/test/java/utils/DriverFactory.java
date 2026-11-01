@@ -58,12 +58,17 @@ public class DriverFactory {
         return driver.get();
     }
 
+
     public static void quitDriver() {
         WebDriver webDriver = driver.get();
-        if (webDriver != null) {
-            webDriver.quit();
-            driver.remove();
 
+        try {
+            if (webDriver != null) {
+                webDriver.quit();
+            }
+        } finally {
+            driver.remove();
         }
     }
+
 }
