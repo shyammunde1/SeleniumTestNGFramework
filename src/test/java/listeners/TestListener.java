@@ -33,45 +33,67 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        extentTest.get().log(
-                Status.PASS, "Test Passed Successfully"
-        );
-        ITestListener.super.onTestSuccess(result);
+        try {
+            extentTest.get().log(
+                    Status.PASS, "Test Passed Successfully"
+            );
+            ITestListener.super.onTestSuccess(result);
+        } finally {
+            extentTest.remove();
+        }
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        ITestListener.super.onTestFailure(result);
-        Throwable throwable = result.getThrowable();
-        extentTest.get().log(Status.FAIL, "Test Failed");
+        try {
+            ITestListener.super.onTestFailure(result);
 
-        if (throwable != null) {
-            extentTest.get().fail(throwable);
+            Throwable throwable = result.getThrowable();
 
-        }
-        BaseTest testInstance = (BaseTest) result.getInstance();
-        WebDriver driver = testInstance.getDriver();
-        String testName = result.getMethod().getMethodName();
+            extentTest.get().log(Status.FAIL, "Test Failed");
 
-        if (driver != null) {
-            try {
-                String screenShotPath = ScreenshotUtils.captureScreenshot(driver, testName);
-                extentTest.get().addScreenCaptureFromPath(screenShotPath);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (throwable != null) {
+                extentTest.get().fail(throwable);
             }
 
+            WebDriver driver = null;
 
+            if (result.getInstance() instanceof BaseTest testInstance) {
+                driver = testInstance.getDriver();
+            }
+
+            String testName = result.getMethod().getMethodName();
+
+            if (driver != null) {
+                try {
+                    String screenShotPath =
+                            ScreenshotUtils.captureScreenshot(driver, testName);
+
+                    extentTest.get().addScreenCaptureFromPath(screenShotPath);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } finally {
+            extentTest.remove();
         }
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        extentTest.get().log(
-                Status.SKIP,
-                "Test Skipped"
-        );
-        ITestListener.super.onTestSkipped(result);
+        try {
+            extentTest.get().log(
+                    Status.SKIP,
+                    "Test Skipped"
+            );
+
+            ITestListener.super.onTestSkipped(result);
+
+        } finally {
+            extentTest.remove();
+        }
     }
 
     @Override

@@ -8,11 +8,21 @@ public class ExtentReportManager {
 
     private static ExtentReports extentReports;
 
-    public static ExtentReports getReportInstance() {
-        ExtentSparkReporter extentSparkReporter = new
-                ExtentSparkReporter("test-output/ExtentReport.html");
-        extentReports = new ExtentReports();
-        extentReports.attachReporter(extentSparkReporter);
+    private ExtentReportManager() {
+        // Prevent object creation from outside this class
+    }
+
+    public static synchronized ExtentReports getReportInstance() {
+
+        if (extentReports == null) {
+
+            ExtentSparkReporter extentSparkReporter =
+                    new ExtentSparkReporter("test-output/ExtentReport.html");
+
+            extentReports = new ExtentReports();
+            extentReports.attachReporter(extentSparkReporter);
+        }
+
         return extentReports;
     }
 }
